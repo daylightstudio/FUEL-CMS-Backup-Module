@@ -45,7 +45,7 @@ $config['backup']['cron_email_file'] = TRUE;
 //backup path for data. Deafult is at the same level as the system and application folder
 $config['backup']['backup_path'] = INSTALL_ROOT.'data_backup/';
 
-//ddatabase backup preferences
+//database backup preferences
 $config['backup']['db_backup_prefs'] = array(
 				'ignore'      => array(),           // List of tables to omit from the backup
 				'add_drop'    => TRUE,              // Whether to add DROP TABLE statements to backup file

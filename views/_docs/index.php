@@ -22,4 +22,6 @@ The Backup module can be used along with the <a href="<?=user_guide_url('modules
 
 <br />
 <br />
-<?=generate_docs('fuel_backup');?>
+<?=generate_docs('fuel_backup')?>
+
+<?=generate_config_info('backup')?>
