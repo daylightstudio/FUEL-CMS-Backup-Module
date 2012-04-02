@@ -17,7 +17,7 @@
 // ------------------------------------------------------------------------
 
 /**
- * Backup object 
+ * Fuel Backup object 
  *
  * @package		FUEL CMS
  * @subpackage	Libraries
