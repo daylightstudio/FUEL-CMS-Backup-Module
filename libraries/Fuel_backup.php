@@ -211,6 +211,9 @@ class Fuel_backup extends Fuel_advanced_module {
 	 */	
 	function zip($file_name, $data = NULL)
 	{
+		// first we clear out any of the data
+		$this->CI->zip->clear_data();
+		
 		if (is_string($data))
 		{
 			// if string is a directory path, then we read the directory... 
@@ -272,8 +275,6 @@ class Fuel_backup extends Fuel_advanced_module {
 	
 	/**
 	 * Writes a file to the backup folder
-	 *
-	 * Accepts an associative array as input, containing backup preferences
 	 *
 	 * @access	public
 	 * @param	string	file name
