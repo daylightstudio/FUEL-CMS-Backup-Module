@@ -14,8 +14,8 @@
 	
 	<div class="buttonbar">
 		<ul>
-			<li class="end"><a href="<?=fuel_url('recent')?>" class="ico ico_no"><?=lang('data_backup_no_backup')?></a></li>
-			<li class="end"><a href="#" class="ico ico_yes" id="submit"><?=lang('data_backup_yes_backup')?></a></li>
+			<li class="unattached"><a href="<?=fuel_url('recent')?>" class="ico ico_no"><?=lang('data_backup_no_backup')?></a></li>
+			<li class="unattached"><a href="#" class="ico ico_yes" id="submit"><?=lang('data_backup_yes_backup')?></a></li>
 		</ul>
 	</div>
 	<?=$this->form->hidden('action', 'backup')?>
