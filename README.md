@@ -1,12 +1,12 @@
 # BACKUP MODULE FOR FUEL CMS
-This is a FUEL CMS backup module for backing up the database and asset files for your [FUEL CMS](http://www.getfuelcms.com) site.
+This is a [FUEL CMS](http://www.getfuelcms.com) backup module for backing up the database and asset files.
 
 ## INSTALLATION
 There are a couple ways to install the module. If you are using GIT you can use the following method
 to create a submodule:
 
 ### USING GIT
-1. Open up a terminal window on your system (e.g. the Terminal application in OS X)
+1. Open up a Terminal window, "cd" to your FUEL CMS installation then type type in: 
 Type in:
 ``php index.php fuel/installer/install git://github.com/daylightstudio/FUEL-CMS-Backup-Module.git backup``
 
@@ -18,17 +18,19 @@ Type in:
 1. Download the zip file from GitHub:
 [https://github.com/daylightstudio/FUEL-CMS-Backup-Module](https://github.com/daylightstudio/FUEL-CMS-Backup-Module)
 
-2. Create a folder in fuel/modules/backup and place the contents of backup folder in there.
+2. Create a "backup" folder in fuel/modules/ and place the contents of the Backup module folder in there.
 
-3. Then to install, type in:
+3. Then to install, open up a Terminal window, "cd" to your FUEL CMS installation then type type in:
 ``php index.php fuel/installer/install backup``
 
-
 ## UNINSTALL
-You may need to put in your full path to the "php" interpreter.
 
 To uninstall the module which will remove any permissions and database information:
 ``php index.php fuel/installer/uninstall backup``
+
+### TROUBLESHOOTING
+1. You may need to put in your full path to the "php" interpreter when using the terminal.
+2. You must have access to an internet connection to install using GIT.
 
 
 ## DOCUMENTATION
