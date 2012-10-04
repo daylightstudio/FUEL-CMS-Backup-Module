@@ -17,7 +17,7 @@ class Fuel_backup_test extends Tester_base {
 	{
 		// cleanup just in case
 		$this->_cleanup_backup_dir();
-		@mkdir(INSTALL_ROOT.'data_backup/testing/');
+		mkdir($this->backup_path);
 	}
 
 	public function test_backup()
@@ -30,6 +30,7 @@ class Fuel_backup_test extends Tester_base {
 						'include_assets' => FALSE,
 						'backup_path' => $this->backup_path,
 						);
+
 		$this->fuel->backup->database($params);
 		$backup_data = $this->fuel->backup->backup_data();
 		if (empty($backup_data['full_path'])) show_error('There was an error getting the backup data');
@@ -51,6 +52,7 @@ class Fuel_backup_test extends Tester_base {
 		$params['file_prefix'] = 'test2';
 		$this->fuel->backup->do_backup($params);
 		$backup_data2 = $this->fuel->backup->backup_data();
+		
 		$new_file_info = get_file_info($backup_data2['full_path']);
 		$test = $new_file_info['size'] > $orig_file_info['size'];
 		$expected = TRUE;
@@ -63,8 +65,10 @@ class Fuel_backup_test extends Tester_base {
 		$this->fuel->backup->do_backup($params);
 		$backup_data3 = $this->fuel->backup->backup_data();
 		
+		$file_prefix =  url_title($this->fuel->config('site_name'), 'underscore', TRUE).'_';
+
 		$test = $backup_data3['file_name'];
-		$expected = 'my_website_test_'.date('m-d-Y').'.sql.zip';
+		$expected = $file_prefix.date('m-d-Y').'.sql.zip';
 		$this->run($test, $expected, 'Test that name of the zipped file is correct after set to AUTO: '.$backup_data3['file_name']);
 		
 		// check for just assets upload file name
@@ -73,7 +77,7 @@ class Fuel_backup_test extends Tester_base {
 		$backup_data4 = $this->fuel->backup->backup_data();
 		
 		$test = $backup_data4['file_name'];
-		$expected = 'my_website_test_'.date('m-d-Y').'.zip';
+		$expected = $file_prefix.date('m-d-Y').'.zip';
 		$this->run($test, $expected, 'Test that backup of just the assets: '.$backup_data3['file_name']);
 		
 		// check that just the assets were included by comparing file size
@@ -93,7 +97,7 @@ class Fuel_backup_test extends Tester_base {
 		$backup_data6 = $this->fuel->backup->backup_data();
 		
 		$test = $backup_data6['file_name'];
-		$expected = 'my_website_test_'.date('m-d-Y').'.sql';
+		$expected = $file_prefix.date('m-d-Y').'.sql';
 		$this->run($test, $expected, 'Test that file is not zipped: '.$backup_data6['file_name']);
 	
 		

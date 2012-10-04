@@ -59,6 +59,7 @@ class Fuel_backup extends Fuel_advanced_module {
 		parent::__construct();
 		$this->CI->load->library('zip');
 		$this->CI->load->helper('file');
+		$this->CI->load->helper('download');
 		
 		if (empty($params))
 		{
@@ -118,12 +119,12 @@ class Fuel_backup extends Fuel_advanced_module {
 			// include assets?
 			if ($this->include_assets)
 			{
-				$this->CI->zip->read_dir(assets_server_path());
+				$this->CI->zip->read_dir(assets_server_path(), FALSE);
 			}
 			return $this->zip($file_name);
 		}
 		else
-		{
+		{		
 			return $this->write($file_name, $data);
 		}
 	}
@@ -159,7 +160,7 @@ class Fuel_backup extends Fuel_advanced_module {
 		}
 		else
 		{
-			
+				
 			return $this->write($file_name, $data);
 		}
 	}
@@ -212,15 +213,13 @@ class Fuel_backup extends Fuel_advanced_module {
 	function zip($file_name, $data = NULL)
 	{
 		// first we clear out any of the data
-		$this->CI->zip->clear_data();
-		
 		if (is_string($data))
 		{
 			// if string is a directory path, then we read the directory... 
 			// may be too presumptious but it's convenient'
 			if (is_dir($data))
 			{
-				$this->CI->zip->read_dir($data);
+				$this->CI->zip->read_dir($data, FALSE);
 			}
 			else
 			{
@@ -255,18 +254,23 @@ class Fuel_backup extends Fuel_advanced_module {
 			$this->_add_error(lang('data_backup_zip_error'));
 			return FALSE;
 		}
-	
-		// download the file to your desktop. 
-		if ($this->download)
-		{
-			$this->CI->zip->download($file_name);
-		}
 
 		// save to backup data
 		$this->_add_backup_data('file_name', $file_name);
 
 		// save to backup data
 		$this->_add_backup_data('full_path', $full_path);
+
+		// download the file to your desktop. 
+		if ($this->download)
+		{
+
+			// !!! THIS WILL EXIT THE SCRIPT
+			$this->CI->zip->download($file_name);
+		}
+		
+		// clear any data on the object
+		$this->CI->zip->clear_data();
 
 		return $archived;
 	}
@@ -298,6 +302,13 @@ class Fuel_backup extends Fuel_advanced_module {
 		// save to backup data
 		$this->_add_backup_data('full_path', $full_path);
 		
+		// download the file to your desktop. 
+		if ($this->download)
+		{
+			// !!! THIS WILL EXIT THE SCRIPT
+			force_download($file_name, $data);
+		}
+
 		return write_file($full_path, $data);
 	}
 	
@@ -407,8 +418,7 @@ class Fuel_backup extends Fuel_advanced_module {
 		// need to do text here to make some fixes
 		$db_back_prefs = $this->db_backup_prefs;
 		$db_back_prefs['format'] = 'txt';
-		$backup =& $this->CI->dbutil->backup($db_back_prefs); 
-		
+		$backup =& $this->CI->dbutil->backup($db_back_prefs);
 		return $backup;
 	}
 	
