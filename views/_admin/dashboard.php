@@ -6,6 +6,6 @@
 	<?php endif; ?>
 	
 	// put it in the notification bar
-	$('#notification').html(html);
+	$('#fuel_notification').html(html);
 //]]>
 </script>
