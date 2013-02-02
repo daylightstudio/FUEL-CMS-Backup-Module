@@ -9,7 +9,7 @@ require_once(FUEL_PATH.'/libraries/Fuel_base_controller.php');
  *
  * @package		FUEL CMS
  * @author		David McReynolds @ Daylight Studio
- * @copyright	Copyright (c) 2011, Run for Daylight LLC.
+ * @copyright	Copyright (c) 2012, Run for Daylight LLC.
  * @license		http://www.getfuelcms.com/user_guide/general/license
  * @link		http://www.getfuelcms.com
  * @filesource
@@ -76,6 +76,12 @@ class Backup extends Fuel_base_controller {
 		}
 		$vars['download_path'] = $download_path;
 		$vars['is_writable'] = is_writable($download_path);
+		$vars['has_cronjobs_module'] = $this->fuel->modules->exists('cronjobs');
+		$vars['include_assets'] = ($this->input->get_post('include_assets')) ? TRUE : FALSE;
+		if ($vars['has_cronjobs_module'])
+		{
+			$vars['cron_command'] = $this->fuel->backup->config('cron_backup_command');
+		}
 		
 		$crumbs = array('tools' => lang('section_tools'), lang('module_backup'));
 		$this->fuel->admin->set_titlebar($crumbs, 'ico_tools_backup');
