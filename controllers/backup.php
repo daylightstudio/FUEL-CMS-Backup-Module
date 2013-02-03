@@ -56,11 +56,11 @@ class Backup extends Fuel_base_controller {
 		{
 			
 			// set assets flag
-			if (!empty($_POST['include_assets'])) 
-			{
-				$this->fuel->backup->include_assets = TRUE;
-			}
+			$this->fuel->backup->include_assets = (!empty($_POST['include_assets'])) ? TRUE : FALSE;
 			
+			// set assets flag
+			$this->fuel->backup->allow_ftp = (!empty($_POST['include_ftp'])) ? TRUE : FALSE;
+	
 			// perform backup
 			if (!$this->fuel->backup->do_backup())
 			{
@@ -78,10 +78,13 @@ class Backup extends Fuel_base_controller {
 		$vars['is_writable'] = is_writable($download_path);
 		$vars['has_cronjobs_module'] = $this->fuel->modules->exists('cronjobs');
 		$vars['include_assets'] = ($this->input->get_post('include_assets')) ? TRUE : FALSE;
+		$vars['include_ftp'] = ($this->input->get_post('include_ftp')) ? TRUE : FALSE;
 		if ($vars['has_cronjobs_module'])
 		{
 			$vars['cron_command'] = $this->fuel->backup->config('cron_backup_command');
 		}
+		$ftp_prefs = $this->fuel->backup->config('ftp_prefs');
+		$vars['ftp_hostname'] = $ftp_prefs['hostname'];
 		
 		$crumbs = array('tools' => lang('section_tools'), lang('module_backup'));
 		$this->fuel->admin->set_titlebar($crumbs, 'ico_tools_backup');

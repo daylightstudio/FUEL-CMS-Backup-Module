@@ -50,9 +50,23 @@ $config['backup']['backup_path'] = INSTALL_ROOT.'data_backup/';
 
 //database backup preferences
 $config['backup']['db_backup_prefs'] = array(
-				'ignore'      => array(),           // List of tables to omit from the backup
-				'add_drop'    => TRUE,              // Whether to add DROP TABLE statements to backup file
-				'add_insert'  => TRUE              // Whether to add INSERT data to backup file
+				'ignore'      => array(),           // list of tables to omit from the backup
+				'add_drop'    => TRUE,              // whether to add DROP TABLE statements to backup file
+				'add_insert'  => TRUE,              // whether to add INSERT data to backup file
+				);
+
+// allow FTP backup
+$config['backup']['allow_ftp'] = TRUE;
+
+// FTP backup preferences
+$config['backup']['ftp_prefs'] = array(
+				'hostname'  => '',                  // the host to send the backup to
+				'username'  => '',                  // the username to FTP
+				'password'  => '',                  // the FTP user's password (warning if saving in FUEL settings... it's not encrypted!)
+				'port'      => 21,					// port on hostname 
+				'passive'   => TRUE,					// FTP mode
+				'remote_dir' => '',                 // the remote directory to ftp to
+				'delete_local' => TRUE,             // will delete the local server version upon successful FTP transfer
 				);
 
 

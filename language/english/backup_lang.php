@@ -15,6 +15,7 @@ $lang['data_backup_already_exists'] = 'Backup already exists.';
 $lang['data_backup_zip_error'] = 'There was an error creating the zipped backup file.';
 $lang['data_backup_folder_not_writable'] = 'The directory %1s is not writable. Make sure it is writable.';
 $lang['data_backup_error_could_not_delete'] = 'Error trying to delete backup.';
+$lang['data_backup_error_could_not_ftp'] = 'Error trying to FTP backup to remote server.';
 
 $lang['data_backup_instructions'] = 'You are about to backup your database. This will download a gzip file from your browser that you can save on your computer.';
 $lang['data_backup_instructions_writable'] = 'It will also create a dated backup file on the web server in the directory:';
@@ -23,3 +24,4 @@ $lang['data_backup_not_writable'] = '(not writable)';
 $lang['data_backup_include_assets'] = 'Include the assets folder?';
 $lang['data_backup_no_backup'] = 'No, don\'t back it up';
 $lang['data_backup_yes_backup'] = 'Yes,  back it up';
+$lang['data_backup_create_cron'] = 'Create a periodic packup';

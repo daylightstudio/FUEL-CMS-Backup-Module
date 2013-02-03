@@ -43,10 +43,20 @@ class Fuel_backup extends Fuel_advanced_module {
 	public $cron_email_file = TRUE; // determines whether to send files in an email with cron backup
 	public $backup_path = ''; //backup path for data. Deafult is at the same level as the system and application folder
 	public $db_backup_prefs = array( //ddatabase backup preferences
-									'ignore'	=> array(), // List of tables to omit from the backup
-									'add_drop'	=> TRUE, // Whether to add DROP TABLE statements to backup file
-									'add_insert'=> TRUE // Whether to add INSERT data to backup file
+									'ignore'	=> array(), // list of tables to omit from the backup
+									'add_drop'	=> TRUE, // whether to add DROP TABLE statements to backup file
+									'add_insert'=> TRUE // whether to add INSERT data to backup file
 									);
+	public $allow_ftp = TRUE; // determines whether to allow FTP transfer to remote server
+	public $ftp_prefs =	 array(
+									'hostname'  => '', // the host to send the backup to
+									'username'  => '', // the username to FTP
+									'password'  => '', // the FTP user's password (warning if saving in FUEL settings... it's not encrypted!)
+									'port'      => '', // port on hostname 
+									'passive'   => '', // FTP mode
+									'remote_dir' => '', // the remote directory to ftp to
+							);
+
 	protected $_backup_data = array(); // an array of backed up data information
 	
 	/**
@@ -121,6 +131,7 @@ class Fuel_backup extends Fuel_advanced_module {
 			{
 				$this->CI->zip->read_dir(assets_server_path(), FALSE);
 			}
+
 			return $this->zip($file_name);
 		}
 		else
@@ -261,10 +272,18 @@ class Fuel_backup extends Fuel_advanced_module {
 		// save to backup data
 		$this->_add_backup_data('full_path', $full_path);
 
+		// FTP the data if it has the credentials
+		if ($this->allow_ftp)
+		{
+			if (!$this->ftp($full_path))
+			{
+				return FALSE;
+			}
+		}
+
 		// download the file to your desktop. 
 		if ($this->download)
 		{
-
 			// !!! THIS WILL EXIT THE SCRIPT
 			$this->CI->zip->download($file_name);
 		}
@@ -302,6 +321,15 @@ class Fuel_backup extends Fuel_advanced_module {
 		// save to backup data
 		$this->_add_backup_data('full_path', $full_path);
 		
+		// FTP the data if it has the credentials
+		if ($this->allow_ftp)
+		{
+			if (!$this->ftp($full_path))
+			{
+				return FALSE;
+			}
+		}
+
 		// download the file to your desktop. 
 		if ($this->download)
 		{
@@ -335,24 +363,6 @@ class Fuel_backup extends Fuel_advanced_module {
 	// --------------------------------------------------------------------
 	
 	/**
-	 * Adds information to backup data
-	 *
-	 * This is a convenience method 
-	 *
-	 * @access	protected
-	 * @param	string	key name
-	 * @param	mixed	data
-	 * @return	void
-	 */	
-	function _add_backup_data($key, $data)
-	{
-		$this->_backup_data[$key] = $data;
-	}
-	
-
-	// --------------------------------------------------------------------
-	
-	/**
 	 * Removes a backup file from the backup directory
 	 *
 	 * @access	public
@@ -375,6 +385,75 @@ class Fuel_backup extends Fuel_advanced_module {
 			}
 		}
 		return $return;
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * FTP's the backup file to a remote destination
+	 *
+	 * @access	public
+	 * @param	string	local filepath
+	 * @param	string	remote filepath (optional)
+	 * @param	array	an array of alternative FTP preferences that will overwrite the config values (optional)
+	 * @return	boolean
+	 */	
+	function ftp($locpath, $rempath = NULL, $ftp_prefs = array())
+	{
+		if ($this->has_ftp_credentials())
+		{
+			$this->CI->load->library('ftp');
+
+			$ftp_prefs = array_merge($this->ftp_prefs, $ftp_prefs);
+			if (empty($rempath))
+			{
+				$file_name = end(explode('/', $locpath));
+				$rempath = $ftp_prefs['remote_dir'].'/'.$file_name;
+			}
+			$connect = $this->CI->ftp->connect($ftp_prefs);
+			if (!$connect OR !$this->CI->ftp->upload($locpath, $rempath, 'auto', NULL))
+			{
+				$this->CI->ftp->close();
+				$this->_add_error(lang('data_backup_error_could_not_ftp'));
+				return FALSE;
+			}
+			$this->CI->ftp->close();
+			return TRUE;
+		}
+		return FALSE;
+		
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Checks whether there is enough config info to FTP
+	 *
+	 * @access	public
+	 * @return	boolean
+	 */	
+	function has_ftp_credentials()
+	{
+		return (!empty($this->ftp_prefs['hostname']) 
+			AND !empty($this->ftp_prefs['username'])
+			AND !empty($this->ftp_prefs['password']));
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Adds information to backup data
+	 *
+	 * This is a convenience method 
+	 *
+	 * @access	protected
+	 * @param	string	key name
+	 * @param	mixed	data
+	 * @return	void
+	 */	
+	protected function _add_backup_data($key, $data)
+	{
+		$this->_backup_data[$key] = $data;
 	}
 	
 	// --------------------------------------------------------------------
