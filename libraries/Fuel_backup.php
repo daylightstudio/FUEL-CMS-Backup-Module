@@ -418,6 +418,13 @@ class Fuel_backup extends Fuel_advanced_module {
 				return FALSE;
 			}
 			$this->CI->ftp->close();
+			
+			// delete the local version if specified in prefs
+			if ($this->ftp_prefs['delete_local'])
+			{
+				@unlink($locpath);
+			}
+
 			return TRUE;
 		}
 		return FALSE;
