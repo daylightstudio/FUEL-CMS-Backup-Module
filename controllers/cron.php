@@ -39,7 +39,7 @@ class Cron extends CI_Controller  {
 	function _remap($method)
 	{
 		// check for CRON OR STDIN constants
-		if (defined('CRON') OR defined('STDIN'))
+		if (php_sapi_name() == 'cli' OR defined('STDIN'))
 		{
 			// set assets flag
 			$include_assets = ($method == '1' OR ($method =='index' AND $this->fuel->backup->config('include_assets')));
