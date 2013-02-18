@@ -223,7 +223,6 @@ class Fuel_backup extends Fuel_advanced_module {
 	 */	
 	function zip($file_name, $data = NULL)
 	{
-		// first we clear out any of the data
 		if (is_string($data))
 		{
 			// if string is a directory path, then we read the directory... 
@@ -245,6 +244,12 @@ class Fuel_backup extends Fuel_advanced_module {
 			return FALSE;
 		}
 		
+		// remove .sql from zipped file name if included assets		
+		if ($this->include_assets)
+		{
+			$file_name = preg_replace('#(.+)\.sql$#U', '$1', $file_name);
+		}
+
 		// add .zip extension so file_name is correct
 		$file_name = $file_name.'.zip';
 		
