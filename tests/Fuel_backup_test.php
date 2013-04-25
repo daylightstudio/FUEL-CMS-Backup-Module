@@ -68,7 +68,7 @@ class Fuel_backup_test extends Tester_base {
 		$file_prefix =  url_title($this->fuel->config('site_name'), 'underscore', TRUE).'_';
 
 		$test = $backup_data3['file_name'];
-		$expected = $file_prefix.date('m-d-Y').'.sql.zip';
+		$expected = $file_prefix.date('m-d-Y').'.zip';
 		$this->run($test, $expected, 'Test that name of the zipped file is correct after set to AUTO: '.$backup_data3['file_name']);
 		
 		// check for just assets upload file name
