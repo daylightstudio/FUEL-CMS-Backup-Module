@@ -39,8 +39,9 @@ class Cron extends CI_Controller  {
 	function _remap($method)
 	{
 		// check for CRON OR STDIN constants
-		if (php_sapi_name() == 'cli' OR defined('STDIN'))
+		if (php_sapi_name() == 'cli' OR defined('STDIN') OR defined('CRON'))//add CRON for compatibility with cronjobs module
 		{
+            $this->fuel->backup->set_params($this->fuel->backup->config());//set parameters with up to date config/settings...before updating assets flag and download flag....
 			// set assets flag
 			$include_assets = ($method == '1' OR ($method =='index' AND $this->fuel->backup->config('include_assets')));
 			
