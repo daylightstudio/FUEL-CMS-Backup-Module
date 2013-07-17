@@ -56,7 +56,7 @@ $config['backup']['db_backup_prefs'] = array(
 				);
 
 // allow FTP backup
-$config['backup']['allow_ftp'] = TRUE;
+$config['backup']['allow_ftp'] = FALSE; //if TRUE and ftp fails then script halts and emails etc are not sent out..
 
 // FTP backup preferences
 $config['backup']['ftp_prefs'] = array(
