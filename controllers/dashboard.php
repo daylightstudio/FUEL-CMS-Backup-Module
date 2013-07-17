@@ -1,4 +1,33 @@
 <?php
+/**
+ * FUEL CMS
+ * http://www.getfuelcms.com
+ *
+ * An open source Content Management System based on the 
+ * Codeigniter framework (http://codeigniter.com)
+ *
+ * @package		FUEL CMS
+ * @author		David McReynolds @ Daylight Studio
+ * @copyright	Copyright (c) 2013, Run for Daylight LLC.
+ * @license		http://docs.getfuelcms.com/general/license
+ * @link		http://www.getfuelcms.com
+ * @filesource
+ */
+
+// ------------------------------------------------------------------------
+
+/**
+ * Backup Dashboard Controller
+ *
+ * @package		FUEL CMS
+ * @subpackage	Controller
+ * @category	Controller
+ * @author		David McReynolds @ Daylight Studio
+ * @link		http://docs.getfuelcms.com/modules/backup
+ */
+
+// ------------------------------------------------------------------------
+
 require_once(FUEL_PATH.'/libraries/Fuel_base_controller.php');
 
 class Dashboard extends Fuel_base_controller {
