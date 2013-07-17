@@ -24,7 +24,7 @@ require_once(FUEL_PATH.'/libraries/Fuel_base_controller.php');
  * @subpackage	Controller
  * @category	Controller
  * @author		David McReynolds @ Daylight Studio
- * @link		http://www.getfuelcms.com/user_guide/modules/backup
+ * @link		http://docs.getfuelcms.com/modules/backup
  */
 
 // --------------------------------------------------------------------
