@@ -110,7 +110,8 @@ class Cron extends Fuel_base_controller  {
 
 				foreach($files as $file)
 				{
-					$file_date = substr(end(explode($file['name'], '_')), 0, 10);
+					$file_parts = explode($file['name'], '_');
+					$file_date = substr(end($file_parts), 0, 10);
 					$file_date_ts = strtotime($file['date']);
 					$compare_date = mktime(0, 0, 0, date('m'), date('j') - $this->fuel->backup->config('days_to_keep'), date('Y'));
 					

@@ -54,7 +54,8 @@ class Dashboard extends Fuel_base_controller {
 			$sorted_backup_dir_info = array_sorter($backup_dir_info, 'date','desc');
 			foreach($sorted_backup_dir_info as $path => $val)
 			{
-				$ext = strtolower(end(explode('.', $val['name'])));
+				$name_parts = explode('.', $val['name']);
+				$ext = strtolower(end($name_parts));
 				if ($ext == 'sql' || $ext = 'zip')
 				{
 					$last_backup_date = date("m/d/Y h:ia", $val['date']);

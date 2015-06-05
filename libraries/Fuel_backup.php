@@ -412,7 +412,8 @@ class Fuel_backup extends Fuel_advanced_module {
 			$ftp_prefs = array_merge($this->ftp_prefs, $ftp_prefs);
 			if (empty($rempath))
 			{
-				$file_name = end(explode('/', $locpath));
+				$locpath_parts = explode('/', $locpath);
+				$file_name = end($locpath_parts);
 				$rempath = $ftp_prefs['remote_dir'].'/'.$file_name;
 			}
 			$connect = $this->CI->ftp->connect($ftp_prefs);
