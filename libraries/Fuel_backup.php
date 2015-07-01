@@ -510,7 +510,7 @@ class Fuel_backup extends Fuel_advanced_module {
 		// need to do text here to make some fixes
 		$db_back_prefs = $this->db_backup_prefs;
 		$db_back_prefs['format'] = 'txt';
-		$backup =& $this->CI->dbutil->backup($db_back_prefs);
+		$backup = $this->CI->dbutil->backup($db_back_prefs);
 		return $backup;
 	}
 	
