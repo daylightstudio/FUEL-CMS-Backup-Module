@@ -49,8 +49,6 @@ class Dashboard extends Fuel_base_controller {
 		$vars = array();
 		if (!empty($backup_dir_info))
 		{
-			$sorted_backup_dir_info = each(array_sorter($backup_dir_info, 'date','desc'));
-			
 			$sorted_backup_dir_info = array_sorter($backup_dir_info, 'date','desc');
 			foreach($sorted_backup_dir_info as $path => $val)
 			{
